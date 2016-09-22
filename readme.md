@@ -14,10 +14,21 @@ To get started, you need to select a ratio and a base value. The base value is u
 * Compass config: `require 'modular-scale'`
 * SCSS: `@import 'modular-scale';`
 
+### Eyeglass
+
+* Terminal: `npm install modularscale-sass --save-dev`
+* SCSS: `@import 'modular-scale'`
+
+### Webpack with sass-loader
+
+* Terminal: `npm install modularscale-sass --save-dev`
+* Webpack config: install and use [sass-loader](https://github.com/jtangelder/sass-loader#apply-via-webpack-config)
+* SCSS: `@import '~modularscale-sass/stylesheets/modular-scale';`
+
 ### Bower
 
-* Terminal: `bower install modular-scale`
-* SCSS: `@import '../link_to_component_dir/modular-scale';`
+* Terminal: `bower install modular-scale --save-dev`
+* SCSS: `@import '../link_to_component_dir/modular-scale/stylesheets/modular-scale';`
 
 ### Vanilla Sass
 
@@ -40,7 +51,7 @@ These are dramatically different environments so things may have slight differen
 
   * Everything should be working, and work very quickly.
 
-#### **Vanilla Sass:**
+#### **Ruby Sass:**
 
   * Works fine, but is slow when using multiple bases and ratios.
 
@@ -67,7 +78,7 @@ You can output a list to your terminal to help you find out what values are on y
 @debug ms-list($start, $end, $ms-base, $ms-ratio);
 ```
 
-You can use a double standard scale by simply adding more base sizes in a space-sepreated list.
+You can use a double standard scale by simply adding more base sizes in a space-separated list.
 **note:** the starting point of the scale will always be the **first** value in this list
 
 ```scss
@@ -89,6 +100,41 @@ You can use multiple $ms-bases and multiple $ms-ratio together
 ```scss
 .multibase-multiratio {
   width: ms(7, 16px 24px, $golden $fourth);
+}
+```
+
+## Responsive scales
+
+Based on [Mike Riethmuller’s](https://twitter.com/MikeRiethmuller) [_Precise control over responsive typography_](http://madebymike.com.au/writing/precise-control-responsive-typography/). A fantastic technique for fluidly scaling typography.
+
+[See a responsive modular scale in action](http://lab.scottkellum.com/ms-respond.html).
+
+First, you will need to set your range. A range is a list of ratio and breakpoint values from smallest to largest. Because this will render as a fluid range by default you will probably only want or need a range of two.
+
+```scss
+$ms-range:
+  1.1   20em,
+  1.333 60em;
+```
+
+If you want to have specified steps instead of fluid type set `$ms-fluid` to `false` and you may want to add more values to your range.
+
+```scss
+$ms-fluid: false;
+
+$ms-range:
+  1.2 20em,
+  1.3 30em,
+  1.4 40em,
+  1.5 50em,
+  1.6 60em;
+```
+
+Now you can use the `ms-respond` mixin to output a range of values for a single point on a scale. The first value is the property and the second value is the point on the scale you wish to use. That’s it, a series of responisve values will be generated based on your configuration.
+
+```scss
+foo {
+  @include ms-respond(font-size, 2);
 }
 ```
 
@@ -130,40 +176,9 @@ $my-ratio: 1 / 3.14159265;
 $ms-ratio: $my-ratio;
 ```
 
-## Responsive scales
-
-At times you may want to have a scale with less contrast on small screens and big type with more contrast on larger screens. For this you can use the `ms-respond` mixin that allows you to plug in a range of ratios at various breakpoints.
-
-First, you will need to set your range. A range is a list of ratio and breakpoint values from smallest to largest.
-
-```scss
-$ms-range:
-  1.2 20em,
-  1.3 30em,
-  1.4 40em,
-  1.5 50em,
-  1.6 60em;
-```
-
-Now you can use the `ms-respond` mixin to output a range of values for a single point on a scale.
-
-```scss
-foo {
-  @include ms-respond(font-size, 2);
-}
-```
-
-```css
-foo { font-size: 1.44em; }
-@media (min-width: 30em) { foo { font-size: 1.69em; } }
-@media (min-width: 40em) { foo { font-size: 1.96em; } }
-@media (min-width: 50em) { foo { font-size: 2.25em; } }
-@media (min-width: 60em) { foo { font-size: 2.56em; } }
-```
-
 ## [Changelog](https://github.com/Team-Sass/modular-scale/releases)
 
-### Licence
+### License
 
 The MIT License (MIT)
 
